@@ -75,31 +75,204 @@
     }
 
     /* Print styles for corporate PDF report */
+    /* ============================================================
+       PRINT / PDF — Propuesta Comercial Milwaukee × METRIKA × Hangcha
+       ============================================================ */
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 14mm 14mm;
+    }
+
     @media print {
-      body {
-        background-color: #ffffff !important;
-        color: #0f172a !important;
-        font-size: 9.5pt !important;
+      /* ── Reset base ── */
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
       }
-      .no-print {
+
+      html, body {
+        width: 100% !important;
+        background: #ffffff !important;
+        color: #0f172a !important;
+        font-size: 8.5pt !important;
+        line-height: 1.4 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+
+      /* ── Ocultar elementos de navegación ── */
+      .no-print,
+      header,
+      nav,
+      button,
+      footer .no-print {
         display: none !important;
       }
-      .print-break-inside-avoid {
+
+      /* ── Contenedor principal ── */
+      main {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        space-y: 0 !important;
+      }
+
+      /* ── Secciones — cada una inicia en nueva página ── */
+      section {
+        border-radius: 0 !important;
+        border: none !important;
+        border-bottom: 1.5pt solid #e2e8f0 !important;
+        box-shadow: none !important;
+        padding: 10mm 0 8mm 0 !important;
+        margin: 0 !important;
+        break-before: page;
+        page-break-before: always;
         break-inside: avoid;
         page-break-inside: avoid;
       }
+
+      /* La primera sección NO rompe de página */
+      section:first-of-type {
+        break-before: auto !important;
+        page-break-before: auto !important;
+      }
+
+      /* ── Encabezado de impresión (reemplaza el header oculto) ── */
+      main::before {
+        content: "PROPUESTA COMERCIAL & FINANCIERA — ARRENDAMIENTO A 60 MESES • 83 EQUIPOS HANGCHA Li-Ion | METRIKA Mantenimiento Industrial";
+        display: block;
+        font-size: 7pt;
+        font-weight: 700;
+        color: #475569;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        border-bottom: 2pt solid #dc2626;
+        padding-bottom: 3mm;
+        margin-bottom: 6mm;
+      }
+
+      /* ── Grids: colapsar a 1 columna en impresión ── */
+      .grid {
+        display: block !important;
+      }
+      .grid > * {
+        display: block !important;
+        width: 100% !important;
+        margin-bottom: 4mm !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* ── Tablas ── */
+      table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        font-size: 7.5pt !important;
+      }
+      th, td {
+        border: 0.5pt solid #cbd5e1 !important;
+        padding: 3pt 5pt !important;
+        text-align: left !important;
+      }
+      thead {
+        background-color: #0f172a !important;
+        color: #ffffff !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      tr:nth-child(even) td {
+        background-color: #f8fafc !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* ── Imágenes ── */
+      img {
+        max-width: 100% !important;
+        height: auto !important;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* ── Tarjetas / cards ── */
+      .rounded-2xl, .rounded-3xl, .rounded-xl {
+        border-radius: 4pt !important;
+      }
+
+      /* ── Colores de fondo oscuros — preservar en impresión ── */
+      .bg-slate-900, .bg-slate-950, .bg-\[\#0B2545\] {
+        background-color: #0f172a !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+
+      /* ── Sombras — eliminar ── */
+      [class*="shadow"] {
+        box-shadow: none !important;
+      }
+
+      /* ── Overflow — mostrar en impresión ── */
+      .overflow-hidden {
+        overflow: visible !important;
+      }
+
+      /* ── Evitar cortes en elementos clave ── */
+      .print-break-inside-avoid,
+      h1, h2, h3, h4,
+      li,
+      .card,
+      figure {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      /* ── Saltos de página explícitos ── */
       .print-break-before {
         break-before: page;
         page-break-before: always;
       }
-      .shadow-sm, .shadow-md, .shadow-lg, .shadow-xl, .shadow-2xl {
-        box-shadow: none !important;
+
+      /* ── Links — mostrar URL ── */
+      a[href]::after {
+        content: none !important;
       }
-      .border {
-        border-color: #cbd5e1 !important;
+
+      /* ── Textos pequeños legibles ── */
+      .text-xs  { font-size: 7pt !important; }
+      .text-sm  { font-size: 8pt !important; }
+      .text-base{ font-size: 9pt !important; }
+      .text-lg  { font-size: 10pt !important; }
+      .text-xl  { font-size: 11pt !important; }
+      .text-2xl { font-size: 13pt !important; }
+      .text-3xl { font-size: 15pt !important; }
+      .text-4xl { font-size: 18pt !important; }
+
+      /* ── Pie de página de impresión ── */
+      @page {
+        @bottom-center {
+          content: "METRIKA × Hangcha — Confidencial | Página " counter(page) " de " counter(pages);
+          font-size: 7pt;
+          color: #64748b;
+        }
       }
     }
   </style>
+
+  <!-- Open Graph — miniatura WhatsApp / redes -->
+  <meta property="og:type"         content="website" />
+  <meta property="og:title"        content="Propuesta Comercial METRIKA x Hangcha | Milwaukee Tool" />
+  <meta property="og:description"  content="Arrendamiento 83 equipos Hangcha Li-Ion a 60 meses. Personal residente in-situ, soporte planta armadora China, Hub Pachuca." />
+  <meta property="og:image"        content="og-preview.png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt"    content="METRIKA x Hangcha — Propuesta Comercial Milwaukee Tool" />
+  <meta property="og:locale"       content="es_MX" />
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Propuesta Comercial METRIKA x Hangcha | Milwaukee Tool" />
+  <meta name="twitter:description" content="Arrendamiento 83 equipos Hangcha Li-Ion - Personal residente - Hub Pachuca - 60 meses." />
+  <meta name="twitter:image"       content="og-preview.png" />
 </head>
 <body class="min-h-full flex flex-col text-slate-800 bg-slate-100 antialiased font-sans">
 
